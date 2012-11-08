@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Basecampx::VERSION
   gem.authors       = ["Anton Zaytsev"]
   gem.email         = ["me@antonzaytsev.com"]
-  gem.description   = %q{TODO: Basecamp new ruby api wrapper}
-  gem.summary       = %q{TODO: Provides simple methods to work with basecamp new api}
+  gem.description   = %q{Basecamp new ruby api wrapper}
+  gem.summary       = %q{Provides simple methods to work with basecamp new api}
   gem.homepage      = ""
 
   gem.rubyforge_project = 'basecampx'
