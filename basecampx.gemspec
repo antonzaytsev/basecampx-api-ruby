@@ -1,18 +1,18 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bcx/version'
+require 'basecampx/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "bcx"
-  gem.version       = Bcx::VERSION
+  gem.name          = "basecampx"
+  gem.version       = Basecampx::VERSION
   gem.authors       = ["Anton Zaytsev"]
   gem.email         = ["me@antonzaytsev.com"]
   gem.description   = %q{TODO: Basecamp new ruby api wrapper}
   gem.summary       = %q{TODO: Provides simple methods to work with basecamp new api}
   gem.homepage      = ""
 
-  gem.rubyforge_project = 'bcx'
+  gem.rubyforge_project = 'basecampx'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

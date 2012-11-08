@@ -1,12 +1,14 @@
-# Bcx
+# Basecampx
 
-TODO: Write a gem description
+Basecamp new API wrapper
+
+API you can find here https://github.com/37signals/bcx-api
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'bcx'
+    gem 'basecampx'
 
 And then execute:
 
@@ -14,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install bcx
+    $ gem install basecampx
 
 ## Usage
 

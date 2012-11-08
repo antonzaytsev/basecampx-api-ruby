@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in bcx.gemspec
+# Specify your gem's dependencies in basecampx.gemspec
 gemspec

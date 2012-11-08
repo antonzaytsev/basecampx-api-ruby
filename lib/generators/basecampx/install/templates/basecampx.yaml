@@ -1,0 +1,5 @@
+default:
+  username: 'Your@username.here'
+  password: 'username.password'
+  project_id: '1810845' # last part from project url https://basecamp.com/1810845
+  api_version: 1
