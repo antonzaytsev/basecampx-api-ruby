@@ -1,8 +1,7 @@
 # Basecampx
 
-Basecamp new API wrapper
-
-API you can find here https://github.com/37signals/bcx-api
+The new Basecamp API Ruby wrapper.
+Currently support only rails, feel free to help me get rid of Rails dependency.
 
 ## Installation
 
@@ -18,9 +17,19 @@ Or install it yourself as:
 
     $ gem install basecampx
 
+## If you use Rails
+
+Generate config file
+
+    $ rails g basecampx:install
+
+Edit config file (config/basecampx.yaml) with your new basecamp login details
+
 ## Usage
 
-TODO: Write usage instructions here
+Get all people from account
+
+    Basecamp.people
 
 ## Contributing
 
@@ -29,3 +38,9 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+
+## Usefull links
+
+The new Basecamp API https://github.com/37signals/bcx-api
+The Basecamp Classic API https://github.com/37signals/basecamp-classic-api
