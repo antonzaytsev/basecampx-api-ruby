@@ -6,8 +6,8 @@ require 'basecampx/version'
 Gem::Specification.new do |gem|
   gem.name          = "basecampx"
   gem.version       = Basecampx::VERSION
-  gem.authors       = ["Anton Zaytsev"]
-  gem.email         = ["me@antonzaytsev.com"]
+  gem.authors       = %w{"Anton Zaytsev"}
+  gem.email         = %w{"me@antonzaytsev.com"}
   gem.description   = %q{Basecamp new ruby api wrapper}
   gem.summary       = %q{Provides simple methods to work with basecamp new api}
   gem.homepage      = ""
@@ -22,4 +22,9 @@ Gem::Specification.new do |gem|
   # Dependencies
   gem.add_runtime_dependency "httparty"
   gem.add_runtime_dependency "json"
+
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "vcr"
+  gem.add_development_dependency "fakeweb"
+  gem.add_development_dependency "capybara-mechanize"
 end
