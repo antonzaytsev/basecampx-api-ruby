@@ -2,6 +2,7 @@
 
 The new Basecamp API Ruby wrapper.
 Currently support only rails, feel free to help me get rid of Rails dependency.
+Based on [mattgaidica](https://github.com/mattgaidica) repo [basecamp-wrap](https://github.com/mattgaidica/basecamp-wrap)
 
 ## Installation
 
