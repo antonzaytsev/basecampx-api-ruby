@@ -22,9 +22,4 @@ Gem::Specification.new do |gem|
   # Dependencies
   gem.add_runtime_dependency "httparty"
   gem.add_runtime_dependency "json"
-
-  gem.add_development_dependency "rspec"
-  gem.add_development_dependency "vcr"
-  gem.add_development_dependency "fakeweb"
-  gem.add_development_dependency "capybara-mechanize"
 end

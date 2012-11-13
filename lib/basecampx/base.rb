@@ -56,5 +56,6 @@ module Basecampx
     def request url
       handle HTTParty.get "#{account_endpoint}/#{url.sub(/^\//, '')}", params
     end
+
   end
 end
