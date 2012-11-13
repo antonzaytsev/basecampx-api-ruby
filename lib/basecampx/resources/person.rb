@@ -1,35 +1,20 @@
 module Basecampx
-  class Person
+  class Person < Basecampx::Resource
 
     attr_accessor :id, :name, :email_address, :admin, :created_at, :avatar_url, :url, :identity_id,
                   :events, :assigned_todos, :todo_list
 
-    def self.parse json
-      output = []
-
-      json.each do |user|
-        output << self.new(user)
-      end
-
-      output
+    def self.find person_id
+      self.new Basecampx.request "people/#{person_id}.json"
     end
 
-    def initialize args
-      self.update_details args
+    def self.all
+      self.parse Basecampx.request "people.json"
     end
 
-    def update_details args
-      args.each do |key, value|
-        self.send(key.to_s+'=', value) if self.respond_to?((key.to_s+'=').to_s)
-      end
-    end
-
+    # GET /people/1/assigned_todos.json
     def todos
-      if self.assigned_todos.nil?
-        self.details
-      end
-
-      self.todo_list = Basecampx.request self.assigned_todos['url']
+      TodoList.parse Basecampx.request "people/#{self.id}/assigned_todos.json"
     end
 
     def details
