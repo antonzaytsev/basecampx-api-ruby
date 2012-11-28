@@ -54,6 +54,11 @@ module Basecampx
       request url, params
     end
 
+    def post url, params={}
+      params[:method] = :post
+      request url, params
+    end
+
     def delete url, params={}
       params[:method] = :delete
       request url, params
