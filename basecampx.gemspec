@@ -22,4 +22,6 @@ Gem::Specification.new do |gem|
   # Dependencies
   gem.add_runtime_dependency "httparty"
   gem.add_runtime_dependency "json"
+
+  gem.add_development_dependency "debugger"
 end

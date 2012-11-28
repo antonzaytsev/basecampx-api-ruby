@@ -33,7 +33,17 @@ module Basecampx
 
     # GET /projects/1/attachments.json
     def attachments
-      Attachment.parse Basecampx.request "/projects/#{self.id}/attachments.json"
+      Attachment.parse Basecampx.request "projects/#{self.id}/attachments.json"
+    end
+
+    # GET /projects/1/documents.json
+    def documents
+      Document.parse Basecampx.request "projects/#{self.id}/documents.json"
+    end
+
+    # GET /projects/1/documents/1.json
+    def document document_id
+      Document.new Basecampx.request "projects/#{self.id}/documents/#{document_id}.json"
     end
 
   end

@@ -39,21 +39,15 @@ module Basecampx
     def handle response
       if response.code == 200
         JSON.parse(response.body)
+      elsif response.code == 404
+        raise Exception, "API can't find specified URL #{response.request.path}"
       else
         raise Exception, response
       end
     end
 
-    def projects
-      self.request "#{account_endpoint}/projects.json"
-    end
-
-    def project id
-      response = HTTParty.get "#{@account_endpoint}/projects/#{id}.json", params
-      handle response
-    end
-
     def request url
+      url = url.sub /https\:\/\/basecamp\.com\/\d*\/api\/v1/, ''
       handle HTTParty.get "#{account_endpoint}/#{url.sub(/^\//, '')}", params
     end
 
