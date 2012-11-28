@@ -25,6 +25,11 @@ module Basecampx
       Event.parse Basecampx.request "people/#{self.id}/events.json?since=#{since.to_time.iso8601}"
     end
 
+    # GET /projects/1/topics.json
+    def topics
+      Topic.parse Basecampx.request "projects/#{self.id}/topics.json"
+    end
+
 private
 
     def update_details url=nil
