@@ -1,3 +1,5 @@
+# https://github.com/37signals/bcx-api/blob/master/sections/documents.md
+
 module Basecampx
   class Document < Basecampx::Resource
 

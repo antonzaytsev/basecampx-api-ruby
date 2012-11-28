@@ -46,5 +46,24 @@ module Basecampx
       Document.new Basecampx.request "projects/#{self.id}/documents/#{document_id}.json"
     end
 
+    # GET /projects/1/accesses.json
+    def accesses
+      Person.parse Basecampx.request "projects/#{self.id}/accesses.json"
+    end
+
+    # POST /projects/1/accesses.json
+    #def grant_access ids, emails
+    #  Basecampx.post "projects/#{self.id}/accesses.json"
+    #end
+
+    # DELETE /projects/1/accesses/1.json
+    def revoke_access person_id
+      if person_id.class.name == 'Basecampx::Person'
+        person_id = person_id.id
+      end
+
+      Basecampx.delete "projects/#{self.id}/accesses/#{person_id}.json"
+    end
+
   end
 end

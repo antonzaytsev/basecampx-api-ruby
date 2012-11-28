@@ -16,17 +16,7 @@ module Basecampx
       }
     end
 
-    def params
-      {
-        :basic_auth => {
-          :username => @connect_details['username'],
-          :password => @connect_details['password']
-        },
-        :headers => {
-          "User-Agent" => @connect_details['username']
-        }
-      }
-    end
+
 
     def account_endpoint
       if @project.nil?
@@ -39,6 +29,8 @@ module Basecampx
     def handle response
       if response.code == 200
         JSON.parse(response.body)
+      elsif response.code == 204
+        true
       elsif response.code == 404
         raise Exception, "API can't find specified URL #{response.request.path}"
       else
@@ -46,9 +38,39 @@ module Basecampx
       end
     end
 
-    def request url
+    def request url, params={}
       url = url.sub /https\:\/\/basecamp\.com\/\d*\/api\/v1/, ''
-      handle HTTParty.get "#{account_endpoint}/#{url.sub(/^\//, '')}", params
+
+      handle HTTParty.send(params[:method] || :get, "#{account_endpoint}/#{url.sub(/^\//, '')}", request_credentials )
+    end
+
+    def get url, params={}
+      params[:method] = :get
+      request url, params
+    end
+
+    def put url, params={}
+      params[:method] = :put
+      request url, params
+    end
+
+    def delete url, params={}
+      params[:method] = :delete
+      request url, params
+    end
+
+    private
+
+    def request_credentials
+      {
+        :basic_auth => {
+          :username => @connect_details['username'],
+          :password => @connect_details['password']
+        },
+        :headers => {
+          "User-Agent" => @connect_details['username']
+        }
+      }
     end
 
   end
