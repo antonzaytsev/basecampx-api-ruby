@@ -11,26 +11,6 @@ module Basecampx
       Project.new Basecampx.request "projects/#{project_id}.json"
     end
 
-    def initialize args
-      self.update_details args
-    end
-
-    def update_details args
-      args.each do |key, value|
-        self.send(key.to_s+'=', value) if self.respond_to?((key.to_s+'=').to_s)
-      end
-    end
-
-    def self.parse json
-      output = []
-
-      json.each do |user|
-        output << self.new(user)
-      end
-
-      output
-    end
-
     # GET /projects/1/todos/1.json will return the specified todo.
     def todo todo_id
       Todo.new Basecampx.request "projects/#{self.id}/todos/#{todo_id}.json"
@@ -45,6 +25,15 @@ module Basecampx
     # GET /projects/1/todolists/1.json will return the specified todolist including the todos.
     def todo_list todo_list_id
       TodoList.new Basecampx.request "projects/#{self.id}/todolists/#{todo_list_id}.json"
+    end
+
+    def events since=1.day.ago
+      Event.parse Basecampx.request "/projects/#{self.id}/events.json?since=#{since.to_time.iso8601}"
+    end
+
+    # GET /projects/1/attachments.json
+    def attachments
+      Attachment.parse Basecampx.request "/projects/#{self.id}/attachments.json"
     end
 
   end

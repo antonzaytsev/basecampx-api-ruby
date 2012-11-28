@@ -2,7 +2,10 @@ module Basecampx
   class TodoList < Basecampx::Resource
 
     attr_accessor :id, :name, :description, :created_at, :updated_at, :completed, :position, :remaining_count,
-                  :completed_count, :creator, :url, :assigned_todos, :bucket
+                  :completed_count, :url, :bucket
+
+    has_one :creator, :person
+    has_many :assigned_todos, :todo
 
     # GET /todolists.json shows active todolists for all projects.
     def self.all
@@ -19,7 +22,7 @@ module Basecampx
     end
 
     def todos
-
+      assigned_todos
     end
 
   end

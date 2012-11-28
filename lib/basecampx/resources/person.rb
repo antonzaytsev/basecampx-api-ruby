@@ -18,8 +18,17 @@ module Basecampx
     end
 
     def details
-      resp = Basecampx.request self.url
-      update_details resp
+      update_details self.url
+    end
+
+    def last_events since=1.day.ago
+      Event.parse Basecampx.request "people/#{self.id}/events.json?since=#{since.to_time.iso8601}"
+    end
+
+private
+
+    def update_details url=nil
+      self.update_attributes Basecampx.request(url || "people/#{self.id}.json")
       self
     end
 

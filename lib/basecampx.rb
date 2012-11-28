@@ -4,8 +4,11 @@ require 'yaml'
 
 require "basecampx/version"
 require 'basecampx/base'
+require 'basecampx/relations'
 require 'basecampx/resource'
+require 'basecampx/resources/attachment'
 require 'basecampx/resources/comment'
+require 'basecampx/resources/event'
 require 'basecampx/resources/person'
 require 'basecampx/resources/project'
 require 'basecampx/resources/todo'

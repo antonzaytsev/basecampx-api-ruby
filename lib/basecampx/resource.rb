@@ -1,5 +1,8 @@
 module Basecampx
   class Resource
+
+    extend Basecampx::Relations
+
     class << self
       def parse json
         output = []
@@ -13,10 +16,10 @@ module Basecampx
     end
 
     def initialize args=[]
-      self.update_details args
+      self.update_attributes args
     end
 
-    def update_details args
+    def update_attributes args
       args.each do |key, value|
         self.send(key.to_s+'=', value) if self.respond_to?((key.to_s+'=').to_s)
       end
