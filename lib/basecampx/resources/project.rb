@@ -4,16 +4,34 @@ module Basecampx
     attr_accessor :id, :name, :description, :archived, :created_at, :updated_at, :starred, :url
 
     def self.all
-      Project.parse Basecampx.request "projects.json"
+      self.parse Basecampx.request "projects.json"
+    end
+
+    def self.first
+      self.all.first
     end
 
     def self.find project_id
-      Project.new Basecampx.request "projects/#{project_id}.json"
+      self.new self.get_one project_id
     end
 
-    # GET /projects/1/todos/1.json will return the specified todo.
+    # For development?
+    def self.random
+      self.all.sample
+    end
+
     def todo todo_id
-      Todo.new Basecampx.request "projects/#{self.id}/todos/#{todo_id}.json"
+      Todo.find self.id, todo_id
+    end
+
+    # Warning! Very slow
+    def todos
+      todos = []
+      self.todo_lists.each do |tl|
+        tl.more_info!
+        todos += tl.todos[:remaining] if tl.todos[:remaining] && tl.todos[:remaining].size >0
+      end
+      todos
     end
 
     # GET /projects/1/todolists.json shows active todolists for this project sorted by position.
@@ -57,9 +75,11 @@ module Basecampx
     #end
 
     # DELETE /projects/1/accesses/1.json
-    def revoke_access person_id
-      if person_id.class.name == 'Basecampx::Person'
-        person_id = person_id.id
+    def revoke_access person
+      if person.class.name == "Basecampx::Person"
+        person_id = person.id
+      elsif person.integer?
+        person_id = person
       end
 
       Basecampx.delete "projects/#{self.id}/accesses/#{person_id}.json"
@@ -68,6 +88,16 @@ module Basecampx
     # GET /projects/1/messages/1.json
     def message message_id
       Message.parse Basecampx.request "projects/#{self.id}/messages/#{message_id}.json"
+    end
+
+    def reload!
+      self.update_attributes(url ? Basecampx.request(url) : self.class.get_one(self.id))
+    end
+
+    private
+
+    def self.get_one project_id
+      Basecampx.request "projects/#{project_id}.json"
     end
 
   end

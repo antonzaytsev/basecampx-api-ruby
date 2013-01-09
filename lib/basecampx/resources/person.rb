@@ -12,13 +12,22 @@ module Basecampx
       self.parse Basecampx.request "people.json"
     end
 
+    def self.first
+      self.all.first
+    end
+
+    # For development?
+    def self.random
+      self.all.sample
+    end
+
     # GET /people/1/assigned_todos.json
-    def todos
+    def todo_lists
       TodoList.parse Basecampx.request "people/#{self.id}/assigned_todos.json"
     end
 
-    def details
-      update_details self.url
+    def reload!
+      self.update_attributes Basecampx.request(url || "people/#{self.id}.json")
     end
 
     def last_events since=1.day.ago
@@ -28,13 +37,6 @@ module Basecampx
     # GET /projects/1/topics.json
     def topics
       Topic.parse Basecampx.request "projects/#{self.id}/topics.json"
-    end
-
-private
-
-    def update_details url=nil
-      self.update_attributes Basecampx.request(url || "people/#{self.id}.json")
-      self
     end
 
   end
