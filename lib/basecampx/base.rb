@@ -24,7 +24,7 @@ module Basecampx
       @connect_details = {
         :provider => 'oauth2',
         :user_agent => user_agent,
-        :token => token,
+        :access_token => token,
         :project_id => project_id,
         :api_version => api_version
       }
@@ -122,10 +122,10 @@ module Basecampx
     end
 
     def request_credentials
-      if @project == :oauth2
+      if @project == :oauth2 && @connect_details[:access_token]
         {
           :headers => {
-            "User-Agent" => @connect_details[:user_agent],
+            "User-Agent" => @connect_details[:user_agent] || :web_server,
             "Authorization" => 'Bearer ' + @connect_details[:access_token]
           }
         }

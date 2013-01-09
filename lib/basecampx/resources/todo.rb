@@ -42,7 +42,12 @@ module Basecampx
     end
 
     # GET /projects/1/todos/1.json will return the specified todo.
-    def self.find project_id, todo_id
+    def self.find todo_id
+      self.new self.get_one todo_id.project.id, todo_id
+    end
+
+    # GET /projects/1/todos/1.json will return the specified todo.
+    def self.find_by_project_id project_id, todo_id
       self.new self.get_one project_id, todo_id
     end
 

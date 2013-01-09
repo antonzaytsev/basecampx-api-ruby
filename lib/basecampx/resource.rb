@@ -13,6 +13,22 @@ module Basecampx
 
         output
       end
+
+      def update_url=url
+        @update_url = url
+      end
+
+      def update_url
+        @update_url
+      end
+
+      def create_url=url
+        @create_url = url
+      end
+
+      def create_url
+        @create_url
+      end
     end
 
     def initialize args=[]
@@ -101,7 +117,7 @@ protected
       else
         false
       end
-    ends
+    end
 
   end
 end
