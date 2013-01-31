@@ -25,7 +25,14 @@ module Basecampx
         end
 
         def #{m}=#{m}_obj
-          @#{m} ||= #{klass.to_s.titleize}.new #{m}_obj
+          if !@#{m}
+            if #{m}_obj.class.name == 'Hash'
+              @#{m} = #{klass.to_s.titleize}.new #{m}_obj
+            elsif #{m}_obj.class.name =~ /^Basecampx/
+              @#{m} = #{m}_obj
+            end
+          end
+          @#{m}
         end
 
       EOB
@@ -61,7 +68,7 @@ module Basecampx
       self.class_eval <<-EOB
 
         def #{name}_id
-          @#{name} && @#{name}.id
+          #{name} && #{name}.id
         end
 
         def #{name}_id=id

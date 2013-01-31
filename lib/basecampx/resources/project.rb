@@ -36,8 +36,19 @@ module Basecampx
 
     # GET /projects/1/todolists.json shows active todolists for this project sorted by position.
     # GET /projects/1/todolists/completed.json shows completed todolists for this project.
-    def todo_lists completed=false
-      TodoList.parse Basecampx.request "projects/#{self.id}/todolists#{completed ? '/completed' : ''}.json"
+    # type can be 'active', 'completed', 'all'
+    # by default we use 'active'
+    def todo_lists type=:active
+      type = type.to_s
+      if type == 'active'
+        TodoList.parse Basecampx.request "projects/#{self.id}/todolists.json"
+      elsif type == 'completed'
+        TodoList.parse Basecampx.request "projects/#{self.id}/todolists/completed.json"
+      else
+        active = TodoList.parse Basecampx.request "projects/#{self.id}/todolists.json"
+        completed = TodoList.parse Basecampx.request "projects/#{self.id}/todolists/completed.json"
+        active.concat completed
+      end
     end
 
     # GET /projects/1/todolists/1.json will return the specified todolist including the todos.

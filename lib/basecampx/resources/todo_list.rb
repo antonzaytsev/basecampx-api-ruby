@@ -12,6 +12,14 @@ module Basecampx
 
     alias_method :project, :bucket
 
+    self.create_url = lambda { |tl| "/projects/#{tl.bucket.id}/todolists.json" }
+    self.update_url = lambda { |tl| "/projects/#{tl.bucket.id}/todolists/#{tl.id}.json" }
+    self.delete_url = lambda { |tl| "/projects/#{tl.bucket.id}/todolists/#{tl.id}.json" }
+
+    def accessors
+      [:name, :description, :completed, :position, :bucket]
+    end
+
     # shows active todolists for all projects
     # GET /todolists.json
     def self.all
@@ -25,6 +33,10 @@ module Basecampx
     end
 
     def self.find project_id, todolist_id
+      self.find_by_project_id project_id, todolist_id
+    end
+
+    def self.find_by_project_id project_id, todolist_id
       self.new Basecampx.request "projects/#{project_id}/todolists/#{todolist_id}.json"
     end
 

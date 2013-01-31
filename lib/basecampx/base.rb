@@ -75,9 +75,10 @@ module Basecampx
       ask(:post, url, options)
     end
 
-    #def delete url, query={}
-    #  request url, :query => query, :method => :delete
-    #end
+    def delete url, *args
+      options = args.extract_options!
+      ask(:delete, url, options)
+    end
 
     #def logger
     #  if defined?('Rails') && Rails.logger
@@ -100,7 +101,7 @@ module Basecampx
 
       if defined?('Rails') && Rails.env.development?
         p "#{method.upcase} Request: #{url}"
-        credentials[:debug_output] = STDOUT
+        #credentials[:debug_output] = STDOUT
       end
       resp = HTTParty.send(method, url, credentials)
 

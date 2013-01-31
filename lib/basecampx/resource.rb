@@ -29,11 +29,24 @@ module Basecampx
       def create_url
         @create_url
       end
+
+      def delete_url=url
+        @delete_url = url
+      end
+
+      def delete_url
+        @delete_url
+      end
+    end
+
+    def errors
+      @_errors
     end
 
     def initialize args=[]
       self.original_data = args
       self.update_attributes args
+      @_errors = []
     end
 
     def update_attributes args
@@ -44,19 +57,30 @@ module Basecampx
     end
 
     def save
-      if is_new?
+      if new?
         create
-      else
+      elsif changed?
         update
+      else
+        false
       end
     end
 
-    def is_new?
+    def new?
       !self.id
     end
 
-    def is_changed?
+    def changed?
+      true # TODO: added checking if record changed
+    end
 
+    def destroy
+      if self.class.delete_url
+        url = self.class.delete_url.call self
+        Basecampx.delete url
+        return true
+      end
+      false
     end
 
 protected
@@ -70,31 +94,7 @@ protected
     end
 
     def update
-      data = {}
-      accessors.each do |accessor|
-        value = self.send accessor
-        if value.class.name == 'Basecampx::Person'
-          if value.respond_to?(:id) && value.id
-            value = {id: value.id, type: 'Person'}
-          end
-        end
-        data[accessor] = value
-      end
-
-      resp = Basecampx.put "/projects/#{self.project.id}/todos/#{self.id}.json", body: data
-
-      if resp
-        self.update_attributes resp
-        true
-      else
-        false
-      end
-    end
-
-
-    def create
-
-      if !self.project || !self.project.id || !self.todolist_id
+      unless self.class.update_url
         return false
       end
 
@@ -109,7 +109,45 @@ protected
         data[accessor] = value
       end
 
-      resp = Basecampx.post "/projects/#{self.project.id}/todolists/#{self.todolist_id}/todos.json", body: data
+      url = self.class.update_url.call self
+      resp = Basecampx.put url, body: data
+
+      if resp
+        self.update_attributes resp
+        true
+      else
+        false
+      end
+    end
+
+    def create
+      if !self.class.create_url
+        @_errors << 'create_url is not specified'
+        return false
+      end
+
+      if self.class.name =~ /::Todo$/ && !self.todolist_id
+        @_errors << 'please specify todolist_id'
+        return false
+      end
+
+      if self.class.name =~ /::TodoList$/ && (!self.bucket || !self.bucket.id)
+        return false
+      end
+
+      data = {}
+      accessors.each do |accessor|
+        value = self.send accessor
+        if value.class.name == 'Basecampx::Person'
+          if value.respond_to?(:id) && value.id
+            value = {id: value.id, type: 'Person'}
+          end
+        end
+        data[accessor] = value
+      end
+
+      url = self.class.create_url.call self
+      resp = Basecampx.post url, body: data
 
       if resp
         self.update_attributes resp
