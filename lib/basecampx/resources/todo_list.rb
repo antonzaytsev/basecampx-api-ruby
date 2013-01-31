@@ -22,8 +22,12 @@ module Basecampx
 
     # shows active todolists for all projects
     # GET /todolists.json
-    def self.all
-      self.parse Basecampx.request "todolists.json"
+    def self.all include_completed=false
+      active = self.parse Basecampx.request "todolists.json"
+      if include_completed
+        active.concat self.parse Basecampx.request "todolists/completed.json"
+      end
+      active
     end
 
     # shows completed todolists for all projects
@@ -41,12 +45,12 @@ module Basecampx
     end
 
     def self.find_by_id todolist_id
-      self.all.each do |tl|
+      self.all(true).each do |tl|
         if tl.id == todolist_id
           return tl
         end
       end
-      false
+      nil
     end
 
     def todos= todos_obj

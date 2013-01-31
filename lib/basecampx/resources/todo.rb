@@ -76,11 +76,10 @@ module Basecampx
     end
 
     def todolist
-      if @_tl && @_tl.id == self.todolist_id
-        @_tl
-      else
+      if !@_tl || @_tl.id != self.todolist_id
         @_tl = TodoList.find_by_id self.todolist_id
       end
+      @_tl
     end
 
     def project
