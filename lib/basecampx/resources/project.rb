@@ -98,7 +98,7 @@ module Basecampx
 
     # GET /projects/1/messages/1.json
     def message message_id
-      Message.parse Basecampx.request "projects/#{self.id}/messages/#{message_id}.json"
+      Message.new Basecampx.request "projects/#{self.id}/messages/#{message_id}.json"
     end
 
     def reload!
